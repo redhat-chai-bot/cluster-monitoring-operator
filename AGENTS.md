@@ -57,6 +57,28 @@ Use `SWITCH_TO_CMO=false` with `make run-local` to run as the current user inste
 **openshift-tests-extension**: CMO integrates with the OpenShift conformance test framework via `tests-ext` binary.
 Run `make tests-ext-update` after modifying Ginkgo tests to update metadata.
 
+## Validating Changes
+
+### Quick Validation
+
+Run these targets to verify Go changes before committing:
+
+```bash
+make build         # Build the operator binary and tests-ext.
+make go-fmt        # Format Go source files (go fmt ./...).
+make golangci-lint # Lint with the pinned golangci-lint version.
+make test-unit     # Run unit tests with race detection (-race -short), excludes e2e.
+```
+
+### golangci-lint Version
+
+Always use `make golangci-lint` instead of a system-installed `golangci-lint`. The Makefile pins
+a specific version for each branch; running a different version may produce false positives.
+
+### Vendoring
+
+This repo uses vendored dependencies. After updating or adding a dependency, run `make vendor`.
+
 ## OpenShift Conventions
 
 Follow [openshift/enhancements CONVENTIONS.md](https://github.com/openshift/enhancements/blob/master/CONVENTIONS.md).
